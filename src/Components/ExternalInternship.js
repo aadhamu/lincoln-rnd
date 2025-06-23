@@ -1,111 +1,184 @@
 import React, { useState } from 'react';
-import '../Css/Register.css';
 import axios from 'axios';
 import { API_ENDPOINT } from "./Config";
 
 const ExternalInternship = () => {
-    const [name, setName] = useState('');
-    const [school, setSchool] = useState('');
-    const [department, setDepartment] = useState('');
-    const [fieldStudy, setFieldStudy] = useState('');
-    const [skill, setSkill] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [date, setDate] = useState('');
-    const [internshipLetter, setInternshipLetter] = useState(null);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+  const [name, setName] = useState('');
+  const [school, setSchool] = useState('');
+  const [department, setDepartment] = useState('');
+  const [fieldStudy, setFieldStudy] = useState('');
+  const [skill, setSkill] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [date, setDate] = useState('');
+  const [internshipLetter, setInternshipLetter] = useState(null);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-    const handleFileChange = (e) => {
-        setInternshipLetter(e.target.files[0]);
-    };
+  const handleFileChange = (e) => {
+    setInternshipLetter(e.target.files[0]);
+  };
 
-    const handleSubmit = async () => {
-        const url = API_ENDPOINT + "external_internship.php";
-  
-        let fData = new FormData();
-        fData.append("name", name);
-        fData.append("school", school);
-        fData.append("department", department);
-        fData.append("fieldStudy", fieldStudy);
-        fData.append("skill", skill);
-        fData.append("phone", phone);
-        fData.append("email", email);
-        fData.append("date", date);
-        if (internshipLetter) fData.append("internshipLetter", internshipLetter);
-  
-        try {
-            const response = await axios.post(url, fData);
-            setSuccess(response.data.message || 'Submission successful.');
-            setError('');
-            // Clear form fields after successful submission
-            setName('');
-            setSchool('');
-            setDepartment('');
-            setFieldStudy('');
-            setSkill('');
-            setPhone('');
-            setEmail('');
-            setDate('');
-            setInternshipLetter(null);
-            document.getElementById("internshipLetter").value = ""; // Clear file input
-        } catch (error) {
-            console.error(error);
-            setError('An error occurred while submitting.');
-            setSuccess('');
-        }
-    };
+  const handleSubmit = async () => {
+    const url = API_ENDPOINT + "external_internship.php";
 
-    return (
-        <div className="formbody">
-            <div className="form-container">
-                <h2>External Internship Form</h2>
-                {error && <p style={{ color: 'red', margin: 15 }}>{error}</p>}
-                {success && <p style={{ color: 'green', margin: 15 }}>{success}</p>}
-                <form>
-                    <div className="form-group">
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter Your Name" required value={name} onChange={(e) => setName(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="school">School:</label>
-                        <input type="text" id="school" name="school" placeholder="Enter Your School" required value={school} onChange={(e) => setSchool(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="department">Department:</label>
-                        <input type="text" id="department" name="department" placeholder="Enter Your Department" required value={department} onChange={(e) => setDepartment(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="fieldStudy">Field of Study:</label>
-                        <input type="text" id="field-study" name="fieldStudy" placeholder="Enter Your Field of Study" required value={fieldStudy} onChange={(e) => setFieldStudy(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="skill">Skill:</label>
-                        <input type="text" id="skill" name="skill" placeholder="Enter Your Skill" required value={skill} onChange={(e) => setSkill(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="phone">Phone Number:</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required value={phone} onChange={(e) => setPhone(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" id="email" name="email" placeholder="Your E-Mail" required value={email} onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="date">Date:</label>
-                        <input type="date" id="date" name="date" placeholder="Enter Date" required value={date} onChange={(e) => setDate(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="internshipLetter">Internship Letter:</label>
-                        <input type="file" id="internshipLetter" name="internshipLetter" onChange={handleFileChange} />
-                    </div>
-                    <div className="form-group">
-                        <button type="button" value="SEND" name="send" id="send" onClick={handleSubmit}>Submit</button>
-                    </div>
-                </form>
+    let fData = new FormData();
+    fData.append("name", name);
+    fData.append("school", school);
+    fData.append("department", department);
+    fData.append("fieldStudy", fieldStudy);
+    fData.append("skill", skill);
+    fData.append("phone", phone);
+    fData.append("email", email);
+    fData.append("date", date);
+    if (internshipLetter) fData.append("internshipLetter", internshipLetter);
+
+    try {
+      const response = await axios.post(url, fData);
+      setSuccess(response.data.message || 'Submission successful.');
+      setError('');
+      setName('');
+      setSchool('');
+      setDepartment('');
+      setFieldStudy('');
+      setSkill('');
+      setPhone('');
+      setEmail('');
+      setDate('');
+      setInternshipLetter(null);
+      document.getElementById("internshipLetter").value = "";
+    } catch (error) {
+      console.error(error);
+      setError('An error occurred while submitting.');
+      setSuccess('');
+    }
+  };
+
+  return (
+    <div
+      style={{
+        fontFamily: 'Poppins, sans-serif',
+        backgroundColor: '#f3f4f6',
+        minHeight: '100vh',
+        padding: '4rem 1rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: '#fff',
+          padding: '3rem 2rem',
+          borderRadius: '12px',
+          width: '100%',
+          maxWidth: '650px',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+        }}
+      >
+        <h2
+          style={{
+            color: '#dc2626',
+            fontSize: '2rem',
+            fontWeight: '700',
+            marginBottom: '2rem',
+            textAlign: 'center',
+            borderBottom: '2px solid #dc2626',
+            paddingBottom: '1rem',
+          }}
+        >
+          External Internship Form
+        </h2>
+
+        {error && <p style={{ color: '#dc2626', fontWeight: 500, marginBottom: 16 }}>{error}</p>}
+        {success && <p style={{ color: '#16a34a', fontWeight: 500, marginBottom: 16 }}>{success}</p>}
+
+        <form>
+          {[
+            { label: 'Name', value: name, setter: setName, id: 'name', type: 'text' },
+            { label: 'School', value: school, setter: setSchool, id: 'school', type: 'text' },
+            { label: 'Department', value: department, setter: setDepartment, id: 'department', type: 'text' },
+            { label: 'Field of Study', value: fieldStudy, setter: setFieldStudy, id: 'fieldStudy', type: 'text' },
+            { label: 'Skill', value: skill, setter: setSkill, id: 'skill', type: 'text' },
+            { label: 'Phone Number', value: phone, setter: setPhone, id: 'phone', type: 'tel' },
+            { label: 'Email', value: email, setter: setEmail, id: 'email', type: 'email' },
+            { label: 'Date', value: date, setter: setDate, id: 'date', type: 'date' },
+          ].map((field, index) => (
+            <div key={index} style={{ marginBottom: '1.5rem' }}>
+              <label
+                htmlFor={field.id}
+                style={{ display: 'block', marginBottom: 8, fontWeight: 600, color: '#111827' }}
+              >
+                {field.label}:
+              </label>
+              <input
+                type={field.type}
+                id={field.id}
+                required
+                value={field.value}
+                onChange={(e) => field.setter(e.target.value)}
+                placeholder={`Enter your ${field.label.toLowerCase()}`}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 8,
+                  border: '1px solid #e5e7eb',
+                  fontSize: '1rem',
+                  outline: 'none',
+                }}
+                onFocus={(e) => (e.target.style.borderColor = '#dc2626')}
+                onBlur={(e) => (e.target.style.borderColor = '#e5e7eb')}
+              />
             </div>
-        </div>
-    );
+          ))}
+
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label
+              htmlFor="internshipLetter"
+              style={{ display: 'block', marginBottom: 8, fontWeight: 600, color: '#111827' }}
+            >
+              Internship Letter:
+            </label>
+            <input
+              type="file"
+              id="internshipLetter"
+              name="internshipLetter"
+              onChange={handleFileChange}
+              style={{
+                width: '100%',
+                padding: '0.6rem 1rem',
+                border: '1px solid #e5e7eb',
+                borderRadius: 8,
+                fontSize: '1rem',
+              }}
+            />
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <button
+              type="button"
+              onClick={handleSubmit}
+              style={{
+                backgroundColor: '#dc2626',
+                color: '#fff',
+                border: 'none',
+                padding: '0.75rem 2rem',
+                fontSize: '1rem',
+                fontWeight: '600',
+                borderRadius: 8,
+                cursor: 'pointer',
+                transition: 'background-color 0.3s ease',
+              }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#991b1b')}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#dc2626')}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default ExternalInternship;

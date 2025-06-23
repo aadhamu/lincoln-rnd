@@ -35,36 +35,40 @@ const Missionvision = () => {
 };
   
 
-const Pictures = () =>{
-  return(
+const Pictures = () => {
+  return (
     <div className="pictures">
-    <div className="sub-L">
-            <div className="gal gal-1"></div>
-            <div className="gal gal-2"></div>
+      {/* Left section: image grid */}
+      <div className="sub-L">
+        <div className="gal gal-1"></div>
+        <div className="gal gal-2"></div>
+      </div>
+
+      {/* Right section: full text content */}
       <div className="sub-R">
-        <div className='double'>
-          <div className="gal gal-4">
-            <h1>Expertise</h1>
-            <p>Our dedicated team of researchers, comprising seasoned faculty and motivated students, 
-              brings diverse expertise across fields such as science, technology, management, and humanities. 
-              Their collective knowledge forms the backbone of our research initiatives, ensuring a well-rounded 
-              and comprehensive approach to complex problems.</p>
-            <br></br>
-            <br></br>
-            <h1>Functionality</h1>
-            <p>The R&D Unit functions as a dynamic hub for ideation, exploration, and innovation. It facilitates a 
-              seamless integration of theoretical knowledge and practical application, providing resources and infrastructure 
-              to support groundbreaking research endeavors.
-              
+        <div className="text-block">
+          <h1>Expertise</h1>
+          <p>
+            Our dedicated team of researchers, comprising seasoned faculty and motivated students, 
+            brings diverse expertise across fields such as science, technology, management, and humanities. 
+            Their collective knowledge forms the backbone of our research initiatives, ensuring a well-rounded 
+            and comprehensive approach to complex problems.
+          </p>
+
+          <h1>Functionality</h1>
+          <p>
+            The R&D Unit functions as a dynamic hub for ideation, exploration, and innovation. It facilitates a 
+            seamless integration of theoretical knowledge and practical application, providing resources and infrastructure 
+            to support groundbreaking research endeavors.
+            <br /><br />
             Additionally, the R&D Unit is mandated to facilitate projects that will financially empower students and staff.
-            </p>
-          </div>
+          </p>
         </div>
-      </div> 
+      </div>
     </div>
-   </div>
-  )
-}
+  );
+};
+
 
 const ProjectCardHead = () => {
   return (
