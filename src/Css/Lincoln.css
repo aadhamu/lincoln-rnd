@@ -664,3 +664,23 @@ img{
 .h-project-details p.student {
   color: rgb(220, 38, 38);
 }
+
+
+.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clickable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .clickable::after {
+    content: '↗';
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+    color: #888;
+  }
+}

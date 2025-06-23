@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../Css/Lincoln.css';
-import { useNavigate } from 'react-router-dom'; 
 import { API_ENDPOINT } from "./Config";
 
 const Hero = () => {
@@ -77,7 +76,6 @@ const ProjectCardHead = () => {
 
 const ProjectPictures2 = () => {
   const [projects, setProjects] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,28 +102,27 @@ const ProjectPictures2 = () => {
     return <h3 className='card-body'>No projects available</h3>;
   }
 
-  const handleClick = (project) => {
-    navigate(`/project/${project.id}`);
-  };
-
   return (
     <div className="project-pictures">
       {projects.map((project, index) => (
-        <div
+        <a
           key={index}
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
           className="p-sub-L clickable"
-          onClick={() => handleClick(project)}
         >
           <img className="p-img" src={project.image} alt={project.title} />
           <h3 className="p-h3">
             {project.title} <span className="click-hint">↗</span>
           </h3>
           <p className="p-p">by {project.student}</p>
-        </div>
+        </a>
       ))}
     </div>
   );
 };
+
 
 const CardHead = () => {
   return (
