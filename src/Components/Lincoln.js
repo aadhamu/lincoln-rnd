@@ -74,8 +74,57 @@ const ProjectCardHead = () => {
   );
 };
 
+const Modal = ({ project, onClose }) => {
+  if (!project) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="close-button" onClick={onClose}>&times;</button>
+        <img
+          src={API_ENDPOINT + project.image}
+          alt={project.title}
+          className="modal-image"
+          style={{ margin: "auto" }}
+        />
+        <div className='project-details'>
+          <div className="project-details-header" style={{ textAlign: "left" }}>
+            <h1><strong>{project.title}</strong></h1>
+            <p style={{ color: 'rgb(220, 38, 38)' }}>Student Name: {project.student}</p>
+            <div className="form-group">
+              <a
+                href={API_ENDPOINT + project.document}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button"
+              >
+                Download
+              </a>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button"
+                >
+                  Link
+                </a>
+              )}
+            </div>
+          </div>
+          <div className="project-details-content" style={{ textAlign: "left", marginTop: "10px" }}>
+            <p style={{ textDecoration: "underline" }}><strong>Abstract</strong></p>
+            <p>{project.description}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ProjectPictures2 = () => {
   const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,23 +154,23 @@ const ProjectPictures2 = () => {
   return (
     <div className="project-pictures">
       {projects.map((project, index) => (
-        <a
+        <div
           key={index}
-          href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
           className="p-sub-L clickable"
+          onClick={() => setSelectedProject(project)}
         >
           <img className="p-img" src={project.image} alt={project.title} />
           <h3 className="p-h3">
             {project.title} <span className="click-hint">↗</span>
           </h3>
           <p className="p-p">by {project.student}</p>
-        </a>
+        </div>
       ))}
+      <Modal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
   );
 };
+
 
 
 const CardHead = () => {
