@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
-import '../Css/List.css';
+import { Link } from "react-router-dom";
+import "../Css/List.css";
 import { API_ENDPOINT } from "./Config";
 
 function List() {
@@ -11,7 +11,9 @@ function List() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(API_ENDPOINT + "admin_student_membership.php");
+        const response = await fetch(
+          API_ENDPOINT + "admin_student_membership.php"
+        );
         const result = await response.json();
 
         if (result.success) {
@@ -20,7 +22,7 @@ function List() {
           setError(result.message);
         }
       } catch (error) {
-        setError('An error occurred while fetching data');
+        setError("An error occurred while fetching data");
       } finally {
         setLoading(false);
       }
@@ -38,36 +40,40 @@ function List() {
   }
 
   return (
-    <div className="listbody">
-      <div className="list">
-        <div  className="tabletop">
-          <h3>Student Membership Applicants</h3>
-          <Link className="text-link button" to="/admindash">
-            Back To Dashboard
-          </Link> 
-        </div>
-        {tableData.length > 0 ? (
-          <table>
-            <thead>
-              <tr>
-                {Object.keys(tableData[0]).map((header, index) => (
-                  <th key={index}>{header}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {tableData.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {Object.values(row).map((value, columnIndex) => (
-                    <td key={columnIndex}>{value}</td>
+    <div id="content">
+      <div className="listbody">
+        <div className="list">
+          <div className="tabletop">
+            <h3>Student Membership Applicants</h3>
+            <Link className="text-link button" to="/admindash">
+              Back To Dashboard
+            </Link>
+          </div>
+          {tableData.length > 0 ? (
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    {Object.keys(tableData[0]).map((header, index) => (
+                      <th key={index}>{header}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableData.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {Object.values(row).map((value, columnIndex) => (
+                        <td key={columnIndex}>{value}</td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No data available</p>
-        )}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p>No data available</p>
+          )}
+        </div>
       </div>
     </div>
   );

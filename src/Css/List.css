@@ -1,4 +1,4 @@
-/* .listbody {
+.listbody {
     font-family: 'Arial', sans-serif;
     background-color: rgb(220, 38, 38);
     margin: 0;
@@ -18,23 +18,28 @@
     margin: 10rem;
 }
 
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; /* Ensures table doesn't squish columns */
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  color: black;
+  white-space: nowrap; /* Prevents text from wrapping in cells */
 }
 
 th {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    color: black;
-    background-color: rgb(220, 38, 38);
-}
-td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    color: black;
+  background-color: rgb(220, 38, 38);
+  color: white;
 }
 
 .text-link .button {
@@ -59,7 +64,7 @@ td {
 
 .tabletop{
     margin-bottom: 2rem;
-} */
+}
 
 
 .listbody {
@@ -90,6 +95,7 @@ td {
   table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 800px; /* Ensures table doesn't squish columns */
   }
   
   th, td {
@@ -97,6 +103,7 @@ td {
     text-align: left;
     border-bottom: 1px solid #ddd;
     color: black;
+    white-space: nowrap; /* Prevents text from wrapping in cells */
   }
   
   th {
@@ -141,6 +148,7 @@ td {
     table {
         width: 100%;
         border-collapse: collapse;
+        min-width: 800px; /* Ensures table doesn't squish columns */
       }
       
       th, td {
@@ -148,6 +156,7 @@ td {
         text-align: left;
         border-bottom: 1px solid #ddd;
         color: black;
+        white-space: nowrap; /* Prevents text from wrapping in cells */
       }
       
       th {
@@ -155,4 +164,27 @@ td {
         color: white;
       }
   }
-  
+
+@media (max-width: 900px) {
+  .list {
+    padding: 10px;
+    margin: 0.5rem;
+  }
+  table {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 600px) {
+  .list {
+    padding: 5px;
+    margin: 0.2rem;
+  }
+  table {
+    min-width: 400px;
+  }
+  th, td {
+    padding: 6px;
+    font-size: 12px;
+  }
+}
