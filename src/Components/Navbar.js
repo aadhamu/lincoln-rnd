@@ -49,11 +49,11 @@ const Navbar = () => {
         <img src={require('./logo.jpg')} alt="logo" height="50px" width="150px" />
       </div>
 
-      <div className='burger-button' onClick={toggleMenu}>
-        <div className={`bar ${isMenuOpen ? 'active' : ''}`}></div>
-        <div className={`bar ${isMenuOpen ? 'active' : ''}`}></div>
-        <div className={`bar ${isMenuOpen ? 'active' : ''}`}></div>
-      </div>
+<div className={`burger-button ${isMenuOpen ? 'active' : ''}`} onClick={toggleMenu}>
+  <div className="bar"></div>
+  <div className="bar"></div>
+  <div className="bar"></div>
+</div>
 
       <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
         {adminLoggedIn ? (

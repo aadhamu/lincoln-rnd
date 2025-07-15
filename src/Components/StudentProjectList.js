@@ -1,5 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { API_ENDPOINT } from './Config';
+import { useParams } from 'react-router-dom';
+
+// Floating bubbles background
+const FloatingBubbles = () => (
+  <div className="floating-bubbles">
+    {[...Array(12)].map((_, i) => (
+      <span
+        key={i}
+        className={
+          `bubble bubble-${i}` + (i % 2 === 0 ? " bubble-red" : " bubble-black")
+        }
+      >
+        {" "}
+      </span>
+    ))}
+  </div>
+);
 
 const Hero = () => {
   return (
@@ -140,9 +157,9 @@ const Modal = ({ project, onClose }) => {
           </div>
 
           <div>
-            <h3 style={{ textDecoration: 'underline', marginBottom: '0.5rem' }}>
+            <h4 style={{ textDecoration: 'none', marginBottom: '0.5rem' }}>
               Abstract
-            </h3>
+            </h4>
             <p style={{ color: '#374151', lineHeight: '1.6' }}>{project.description}</p>
           </div>
         </div>
@@ -154,20 +171,28 @@ const Modal = ({ project, onClose }) => {
 const Areas = () => {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
+  const { category } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(API_ENDPOINT + 'student_projects.php');
+        let url = API_ENDPOINT + 'student_projects.php';
+        if (category) {
+          url += `?category=${encodeURIComponent(category)}`;
+        }
+        const response = await fetch(url);
         const result = await response.json();
-        setProjects(result.data);
+        setProjects(Array.isArray(result.data) ? result.data : []);
       } catch (error) {
         console.error('Error fetching project data:', error);
       }
     };
-
     fetchData();
-  }, []);
+  }, [category]);
+
+  // No need to filter on frontend, backend now filters by category
+  // Filter out archived projects
+  const filteredProjects = projects.filter(p => !p.archive || p.archive === 0);
 
   const cardStyle = {
     backgroundColor: '#fff',
@@ -194,54 +219,86 @@ const Areas = () => {
         gap: '2rem',
       }}
     >
-      {projects.map((project, index) => (
-        <div
-          key={index}
-          style={cardStyle}
-          onClick={() => setSelectedProject(project)}
-          onMouseEnter={(e) => Object.assign(e.currentTarget.style, cardHover)}
-          onMouseLeave={(e) => Object.assign(e.currentTarget.style, cardStyle)}
-        >
-          <img
-            src={API_ENDPOINT + project.image}
-            alt={project.title}
-            style={{
-              width: '100%',
-              height: '200px',
-              objectFit: 'cover',
-              borderTopLeftRadius: '12px',
-              borderTopRightRadius: '12px',
-            }}
-          />
-          <div style={{ padding: '1.5rem' }}>
-            <h2
-              style={{
-                fontSize: '1.2rem',
-                color: '#111827',
-                marginBottom: '0.5rem',
-              }}
-            >
-              {project.title}
-            </h2>
-            <p style={{ fontSize: '0.95rem', color: '#4b5563', lineHeight: '1.5' }}>
-              {project.description.length > 120
-                ? project.description.substring(0, 120) + '...'
-                : project.description}
-            </p>
-            <p style={{ fontWeight: 'bold', color: '#dc2626', marginTop: '0.8rem' }}>
-              Student: {project.student}
-            </p>
-          </div>
+      {filteredProjects.length === 0 ? (
+        <div style={{ gridColumn: '1/-1', textAlign: 'center', color: '#dc2626', fontWeight: 600 }}>
+          No projects found for this category.
         </div>
-      ))}
+      ) : (
+        filteredProjects.map((project, index) => (
+          <div
+            key={index}
+            style={cardStyle}
+            onClick={() => setSelectedProject(project)}
+            onMouseEnter={(e) => Object.assign(e.currentTarget.style, cardHover)}
+            onMouseLeave={(e) => Object.assign(e.currentTarget.style, cardStyle)}
+          >
+            <img
+              src={API_ENDPOINT + project.image}
+              alt={project.title}
+              style={{
+                width: '100%',
+                height: '200px',
+                objectFit: 'cover',
+                borderTopLeftRadius: '12px',
+                borderTopRightRadius: '12px',
+              }}
+            />
+            <div style={{ padding: '1.5rem' }}>
+              <h2
+                style={{
+                  fontSize: '1.2rem',
+                  color: '#111827',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                {project.title}
+              </h2>
+              <p style={{ fontSize: '0.95rem', color: '#4b5563', lineHeight: '1.5' }}>
+                {project.description.length > 120
+                  ? project.description.substring(0, 120) + '...'
+                  : project.description}
+              </p>
+              <p style={{ fontWeight: 'bold', color: '#dc2626', marginTop: '0.8rem' }}>
+                Student: {project.student}
+              </p>
+            </div>
+          </div>
+        ))
+      )}
       <Modal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </div>
   );
 };
 
+const FloatingBubblesOverlay = () => (
+  <div style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    background: 'rgba(255,255,255,0.85)',
+    zIndex: 9999,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'opacity 0.5s',
+  }}>
+    <FloatingBubbles />
+  </div>
+);
+
 function ProjectList() {
+  const [showBubbles, setShowBubbles] = React.useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setShowBubbles(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div style={{ fontFamily: 'Poppins, sans-serif', backgroundColor: '#ffffff' }}>
+      {showBubbles && <FloatingBubblesOverlay />}
       <Hero />
       <Areas />
     </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import '../Css/ProjectDetails.css';
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "../Css/ProjectDetails.css";
 import { API_ENDPOINT } from "./Config";
 
 function ProjectDetails() {
@@ -13,7 +13,9 @@ function ProjectDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch (API_ENDPOINT + `project_details.php?id=${id}`);
+        const response = await fetch(
+          API_ENDPOINT + `project_details.php?id=${id}`
+        );
         const result = await response.json();
 
         if (result.success) {
@@ -22,7 +24,7 @@ function ProjectDetails() {
           setError(result.message);
         }
       } catch (error) {
-        setError('An error occurred while fetching data');
+        setError("An error occurred while fetching data");
       } finally {
         setLoading(false);
       }
@@ -40,21 +42,24 @@ function ProjectDetails() {
   }
 
   return (
-    <>    
-    <div className="project-details">
-      <div className="project-details-header">
-        <h2>{project.title}</h2>
-        <p>Author: {project.author}</p>
-        <p>Created At: {project.created_at}</p>
-        <Link className="text-link button" to="/admindash/adminviewprojectinformation">
-        Back
-        </Link>
+    <div id="content">
+      <div className="project-details">
+        <div className="project-details-header">
+          <h2>{project.title}</h2>
+          <p>Author: {project.author}</p>
+          <p>Created At: {project.created_at}</p>
+          <Link
+            className="text-link button"
+            to="/admindash/adminviewprojectinformation"
+          >
+            Back
+          </Link>
+        </div>
+        <div className="project-details-content">
+          <p>{project.description}</p>
+        </div>
       </div>
-      <div className="project-details-content">
-        <p>{project.description}</p>
-      </div>
-    </div></>
-
+    </div>
   );
 }
 
